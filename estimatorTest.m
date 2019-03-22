@@ -1,7 +1,7 @@
 %% Define Prior
 stepSize = 0.001; stmSpc = -2 * pi : stepSize : 3 * pi;
 
-scaling = 1.95;
+scaling = 1.2;
 prior = 2 - scaling * abs(sin(2 * stmSpc)); nrmConst = 1.0 / trapz(stmSpc, prior);
 prior = prior * nrmConst;
 
