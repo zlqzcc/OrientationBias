@@ -1,21 +1,22 @@
 %% Define Prior
-stepSize = 0.01; stmSpc = -2 * pi : stepSize : 3 * pi;
-prior = 2 - abs(sin(2 * stmSpc)); nrmConst = 1.0 / trapz(stmSpc, prior);
+stepSize = 0.001; stmSpc = -2 * pi : stepSize : 3 * pi;
+
+scaling = 1.95;
+prior = 2 - scaling * abs(sin(2 * stmSpc)); nrmConst = 1.0 / trapz(stmSpc, prior);
 prior = prior * nrmConst;
 
-priorDensity = @(support) (2 - abs(sin(support))) * nrmConst;
-plot(stmSpc / pi, prior, 'LineWidth', 2); grid on;
-xlabel('radius (pi)'); ylabel('p(theta)');
+subplot(1, 2, 1); hold on;
+priorDensity = @(support) (2 - scaling * abs(sin(2 * support))) * nrmConst;
+
+plotRange = 0 : 0.01 : pi;
+plot(plotRange / pi, priorDensity(plotRange), 'LineWidth', 2); grid on;
+xlabel('radius (pi)'); ylabel('p(theta)'); ylim([0, 0.3]);
 
 %% Estimator
-
-noiseLevelsMap = 0.05;
+noiseLevelsMap = 0.01;
 thetas = 0 : 0.05 : 1.01 * pi;
 
-% noiseLevelsMap = 0.05;
-% thetas = 0;
-
-figure; hold on;
+subplot(1, 2, 2); hold on;
 for idx = 1 : length(noiseLevelsMap)
     noiseLevel = noiseLevelsMap(idx);
     estimates = arrayfun(@(theta) averageEstimateMap(stmSpc, prior, theta, noiseLevel), thetas);

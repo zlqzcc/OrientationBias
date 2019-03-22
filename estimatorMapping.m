@@ -46,23 +46,17 @@ end
         estimateCos = sum(posteriorMass .* cos(unStmSpc));
         
         estimate = atan(estimateSin / estimateCos);
-        
-        if(msmtStim < -0.25 * pi)
-            if(estimate > 0)
-                estimate = estimate - pi;
-            end
-        elseif(msmtStim > 0.25 * pi && msmtStim < 0.75 * pi)
+                
+        nCycle = floor((msmtStim - 0.25 * pi) / (0.5*pi));
+        nCount = floor(nCycle /2) + 1;
+        if(mod(nCycle, 2) == 0)
             if(estimate <= 0)
-                estimate = estimate + pi;
-            end
-        elseif(msmtStim >= 0.75 * pi && msmtStim < 1.25 * pi)
-            estimate = estimate + pi;
-        elseif(msmtStim >= 1.25 * pi)
-            if(estimate <= 0)
-                estimate = estimate + 2 * pi;
+                estimate = estimate + nCount * pi;
             else
-                estimate = estimate + pi;
+                estimate = estimate + (nCount - 1) * pi;
             end
-        end
+        else
+            estimate = estimate + nCount * pi;
+        end                                       
     end
 end
