@@ -1,6 +1,6 @@
-function negLlhd = dataLlhd(priorScale, intNoise, input, response)
+function negLlhd = dataLlhd(priorScale, intNoise, mtrNoise, input, response)
 stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
-priorUnm = 2 - priorScale * abs(sin(2 * stmSpc)); 
+priorUnm = 2 - priorScale * abs(sin(2 * stmSpc));
 nrmConst = 1.0 / trapz(stmSpc, priorUnm);
 prior = @(support) (2 - priorScale * abs(sin(2 * support))) * nrmConst;
 
@@ -20,13 +20,15 @@ estimates = arrayfun(@(msmt) thetaEstimator(ivsStmSpc, ivsPrior, stmSpc, snsSpc,
 
 logLlhd = zeros(1, length(input));
 parfor idx = 1:length(input)
-    [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, input(idx));    
+    [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, input(idx));
+    probDnst = motorConv(mtrNoise, domain, probDnst)
+    
     dataProb = interp1(domain, probDnst, response(idx), 'linear', 'extrap');
     % zero probability threshold
-    if(dataProb < 1e-6) 
+    if(dataProb < 1e-6)
         dataProb = 1e-6;
     end
-    logLlhd(idx) = log(dataProb);    
+    logLlhd(idx) = log(dataProb);
 end
 
 negLlhd = -sum(logLlhd);

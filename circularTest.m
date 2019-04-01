@@ -14,7 +14,7 @@ xlabel('radius (pi)'); ylabel('p(theta)');
 
 %% Estimator
 kappa = 50;
-[domain, probDnst] = estimatorCircular(priorDensity, kappa, 0.25 * pi);
+[domain, probDnst] = estimatorCircular(priorDensity, kappa, 0.001, 0.25 * pi);
 
 figure;
 plot(domain / pi * 180, probDnst, 'LineWidth', 2); grid on;
@@ -35,7 +35,7 @@ title('Bias, Homogeneous Noise');
 xlabel('Orientation (pi)'); ylabel('Bias (deg)'); grid on;
 
 function [meanEst] = averageEstimate(prior, noiseLevel, theta)
-[ests, prob] = estimatorCircular(prior, noiseLevel, theta);
+[ests, prob] = estimatorCircular(prior, noiseLevel, 0.01, theta);
 
 delta = 0.01;
 unDomain = min(ests) : delta : max(ests);
