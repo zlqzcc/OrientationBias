@@ -45,7 +45,7 @@ xticklabels({'woFB', 'wFB1', 'wFB2'});
 title('Noise Parameter');
 
 %% Plot Model Prediction, Normal
-figure; subplot(2, 1, 1); hold on; grid on;
+figure; subplot(1, 2, 1); hold on; grid on;
 [~, theta, bias] = modelVis(para_woFB_td);
 plot(theta/pi, bias/pi*180, 'LineWidth', 2);
 
@@ -60,7 +60,7 @@ xlabel('Orientation (pi)'); ylabel('Bias (deg)'); grid on;
 legend({'woFB', 'wFB1', 'wFB2'});
 
 %% Plot Model Prediction, ASD
-subplot(2, 1, 2); hold on; grid on;
+subplot(1, 2, 2); hold on; grid on;
 [~, theta, bias] = modelVis(para_woFB_asd);
 plot(theta/pi, bias/pi*180, 'LineWidth', 2);
 

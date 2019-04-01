@@ -1,4 +1,4 @@
-function [priorDensity, thetas, bias] = modelVis(para, ciBnd)
+function [priorDensity, thetas, bias] = modelVis(para)
 priorScale = para(1);
 intNoise   = para(2);
 
@@ -15,7 +15,7 @@ thetas = 0.01 : 0.05 : 1.01 * pi;
 estimates = arrayfun(@(theta) averageEstimate(priorDensity, noiseLevel, theta), thetas);
 bias = estimates - thetas;
 
-    function [meanEst] = averageEstimate(prior, noiseLevel, theta)
+    function [estMean] = averageEstimate(prior, noiseLevel, theta)
         [ests, prob] = estimatorCircular(prior, noiseLevel, theta);
         
         delta = 0.01;
@@ -26,12 +26,12 @@ bias = estimates - thetas;
         
         estimateSin = sum(mass .* sin(unDomain));
         estimateCos = sum(mass .* cos(unDomain));
-        meanEst = atan(estimateSin / estimateCos);
+        estMean = atan(estimateSin / estimateCos);
         
         if(estimateCos < 0)
-            meanEst = meanEst + pi;
-        elseif(estimateCos > 0 && meanEst < 0)
-            meanEst = meanEst + 2 * pi;
+            estMean = estMean + pi;
+        elseif(estimateCos > 0 && estMean < 0)
+            estMean = estMean + 2 * pi;
         end        
     end
 end
