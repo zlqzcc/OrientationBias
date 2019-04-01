@@ -21,7 +21,12 @@ estimates = arrayfun(@(msmt) thetaEstimator(ivsStmSpc, ivsPrior, stmSpc, snsSpc,
 logLlhd = zeros(1, length(input));
 parfor idx = 1:length(input)
     [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, input(idx));    
-    logLlhd(idx) = log(interp1(domain, probDnst, response(idx), 'linear', 'extrap'));    
+    dataProb = interp1(domain, probDnst, response(idx), 'linear', 'extrap');
+    % zero probability threshold
+    if(dataProb < 1e-6) 
+        dataProb = 1e-6;
+    end
+    logLlhd(idx) = log(dataProb);    
 end
 
 negLlhd = -sum(logLlhd);

@@ -1,7 +1,7 @@
 %% Define Prior
 stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
 
-scaling = 1.25;
+scaling = 1.5;
 prior = 2 - scaling * abs(sin(2 * stmSpc)); 
 nrmConst = 1.0 / trapz(stmSpc, prior);
 prior = prior * nrmConst;
@@ -14,7 +14,7 @@ xlabel('radius (pi)'); ylabel('p(theta)');
 
 %% Estimator
 kappa = 50;
-[domain, probDnst] = estimatorCircular(priorDensity, kappa, 1.0 * pi);
+[domain, probDnst] = estimatorCircular(priorDensity, kappa, 0.25 * pi);
 
 figure;
 plot(domain / pi * 180, probDnst, 'LineWidth', 2); grid on;
