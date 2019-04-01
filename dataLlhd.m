@@ -1,5 +1,4 @@
 function negLlhd = dataLlhd(priorScale, intNoise, input, response)
-
 stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
 priorUnm = 2 - priorScale * abs(sin(2 * stmSpc)); 
 nrmConst = 1.0 / trapz(stmSpc, priorUnm);
@@ -19,12 +18,12 @@ ivsPrior  = prior(ivsStmSpc);
 % theat_hat(measurement)
 estimates = arrayfun(@(msmt) thetaEstimator(ivsStmSpc, ivsPrior, stmSpc, snsSpc, delta, intNoise, msmt), snsSpc);
 
-logLlhd = 0;
-for idx = 1:length(input)
-    [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, input(idx));
-    logLlhd = logLlhd + log(interp1(domain, probDnst, response(idx), 'linear', 'extrap'));
+logLlhd = zeros(1, length(input));
+parfor idx = 1:length(input)
+    [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, input(idx));    
+    logLlhd(idx) = log(interp1(domain, probDnst, response(idx), 'linear', 'extrap'));    
 end
 
-negLlhd = -logLlhd;
+negLlhd = -sum(logLlhd);
 end
 
