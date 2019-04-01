@@ -1,4 +1,7 @@
-function [priorDensity, thetas, bias] = modelVis(para)
+function [prior, thetas, bias, biasLB, biasUB] = modelVis(para, ci, incr)
+if ~exist('incr','var')     
+      incr = 0.025;
+end
 priorScale = para(1);
 intNoise   = para(2);
 
@@ -6,16 +9,25 @@ stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
 
 prior = 2 - priorScale * abs(sin(2 * stmSpc));
 nrmConst = 1.0 / trapz(stmSpc, prior);
-priorDensity = @(support) (2 - priorScale * abs(sin(2 * support))) * nrmConst;
+prior = @(support) (2 - priorScale * abs(sin(2 * support))) * nrmConst;
 
 % Calculate Bias
 noiseLevel = intNoise;
-thetas = 0.01 : 0.05 : 1.01 * pi;
+thetas = 0.01 : incr : 1.01 * pi;
 
-estimates = arrayfun(@(theta) averageEstimate(priorDensity, noiseLevel, theta), thetas);
-bias = estimates - thetas;
+estimate = zeros(3, length(thetas));
+for idx = 1:length(thetas)
+    [estimate(1, idx), estimate(2, idx), estimate(3, idx)] = ...
+        averageEstimate(prior, noiseLevel, thetas(idx), ci);
+end
 
-    function [estMean] = averageEstimate(prior, noiseLevel, theta)
+bias   = (estimate(1, :) - thetas) / pi * 180;
+biasLB = (estimate(2, :) - thetas) / pi * 180;
+biasUB = (estimate(3, :) - thetas) / pi * 180;
+thetas = thetas / pi;
+
+    function [estMean, estLB, estUB] = averageEstimate(prior, noiseLevel, theta, ci)
+        % mean estimate
         [ests, prob] = estimatorCircular(prior, noiseLevel, theta);
         
         delta = 0.01;
@@ -32,6 +44,22 @@ bias = estimates - thetas;
             estMean = estMean + pi;
         elseif(estimateCos > 0 && estMean < 0)
             estMean = estMean + 2 * pi;
-        end        
+        end
+        
+        % interval estimate
+        if(theta < 0.25 * pi)
+            ests(ests > pi) = ests(ests > pi) - 2 * pi;
+        end
+        [ests, sortIdx] = sort(ests);
+        prob = prob(sortIdx);
+        ests = ests(prob > 0);
+        prob = prob(prob > 0);
+        
+        [cdf, uIdx] = unique(cumtrapz(ests, prob), 'stable');
+        quantileLB = (1 - ci) / 2;
+        quantileUB = 1 - quantileLB;
+        
+        estLB = interp1(cdf, ests(uIdx), quantileLB);
+        estUB = interp1(cdf, ests(uIdx), quantileUB);
     end
 end

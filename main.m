@@ -47,14 +47,14 @@ title('Noise Parameter');
 
 %% Plot Model Prediction, Normal
 figure; subplot(1, 2, 1); hold on; grid on;
-[~, theta, bias] = modelVis(para_woFB_td);
-plot(theta/pi, bias/pi*180, 'LineWidth', 2);
+[~, theta, bias] = modelVis(para_woFB_td, 0.68);
+plot(theta, bias, 'LineWidth', 2);
 
-[~, theta, bias] = modelVis(para_wFB1_td);
-plot(theta/pi, bias/pi*180, 'LineWidth', 2);
+[~, theta, bias] = modelVis(para_wFB1_td, 0.68);
+plot(theta, bias, 'LineWidth', 2);
 
-[~, theta, bias] = modelVis(para_wFB2_td);
-plot(theta/pi, bias/pi*180, 'LineWidth', 2);
+[~, theta, bias] = modelVis(para_wFB2_td, 0.68);
+plot(theta, bias, 'LineWidth', 2);
 
 title('Bias, Normal Control'); xlim([0, 1]); ylim([-10, 10]);
 xlabel('Orientation (pi)'); ylabel('Bias (deg)'); grid on;
@@ -62,15 +62,49 @@ legend({'woFB', 'wFB1', 'wFB2'});
 
 %% Plot Model Prediction, ASD
 subplot(1, 2, 2); hold on; grid on;
-[~, theta, bias] = modelVis(para_woFB_asd);
-plot(theta/pi, bias/pi*180, 'LineWidth', 2);
+[~, theta, bias] = modelVis(para_woFB_asd, 0.68);
+plot(theta, bias, 'LineWidth', 2);
 
-[~, theta, bias] = modelVis(para_wFB1_asd);
-plot(theta/pi, bias/pi*180, 'LineWidth', 2);
+[~, theta, bias] = modelVis(para_wFB1_asd, 0.68);
+plot(theta, bias, 'LineWidth', 2);
 
-[~, theta, bias] = modelVis(para_wFB2_asd);
-plot(theta/pi, bias/pi*180, 'LineWidth', 2);
+[~, theta, bias] = modelVis(para_wFB2_asd, 0.68);
+plot(theta, bias, 'LineWidth', 2);
 
 title('Bias, ASD'); xlim([0, 1]); ylim([-10, 10]);
 xlabel('Orientation (pi)'); ylabel('Bias (deg)'); grid on;
 legend({'woFB', 'wFB1', 'wFB2'});
+
+%% Model - Data scatter Plot, Control
+figure;
+colors = get(gca,'colororder');
+
+load('woFB_td.mat');
+subplot(1, 2, 1); hold on; grid on;
+[~, theta, bias, lb, ub] = modelVis(para_woFB_td, 0.95, 0.1);
+errorbar(theta, bias, bias - lb, ub - bias, 'LineWidth', 1.2, 'Color', colors(1, :));
+scatter(allTarget/180*pi, allResponse - allTarget, 1, colors(1, :));
+% xlim([0, 1]); ylim([-20, 20]);
+xlabel('Orientation (pi)'); ylabel('Bias (deg)');
+title('Bias, Normal Control - woFB');
+
+load('wFB2_td.mat');
+subplot(1, 2, 2); hold on; grid on;
+[~, theta, bias, lb, ub] = modelVis(para_wFB2_td, 0.95, 0.1);
+errorbar(theta, bias, bias - lb, ub - bias, 'LineWidth', 1.2, 'Color', colors(2, :));
+scatter(allTarget/180*pi, allResponse - allTarget, 1, colors(2, :));
+% xlim([0, 1]); ylim([-20, 20]);
+xlabel('Orientation (pi)'); ylabel('Bias (deg)');
+title('Bias, Normal Control - wFB2');
+
+%% Model - Data scatter Plot, ASD
+subplot(1, 2, 2); hold on; grid on;
+[~, theta, bias, lb, ub] = modelVis(para_woFB_asd, 0.68, 0.1);
+errorbar(theta, bias, bias - lb, ub - bias, 'LineWidth', 1.2);
+
+[~, theta, bias, lb, ub] = modelVis(para_wFB2_asd, 0.68, 0.1);
+errorbar(theta, bias, bias - lb, ub - bias, 'LineWidth', 1.2);
+
+title('Bias, ASD'); xlim([0, 1]);
+xlabel('Orientation (pi)'); ylabel('Bias (deg)'); grid on;
+legend({'woFB', 'wFB2'});
