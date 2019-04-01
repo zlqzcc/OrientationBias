@@ -1,7 +1,7 @@
 %% Define Prior
 stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
 
-scaling = 1.6;
+scaling = 1;
 prior = 2 - scaling * abs(sin(2 * stmSpc)); 
 nrmConst = 1.0 / trapz(stmSpc, prior);
 prior = prior * nrmConst;
@@ -13,14 +13,14 @@ plot(stmSpc / pi, priorDensity(stmSpc), 'LineWidth', 2); grid on;
 xlabel('radius (pi)'); ylabel('p(theta)'); 
 
 %% Estimator
-kappa = 1;
-[domain, probDnst] = estimatorCircular(priorDensity, kappa, 0.0 * pi);
+kappa = 10;
+[domain, probDnst] = estimatorCircular(priorDensity, kappa, 1.0 * pi);
 
 figure;
-plot(domain / pi, probDnst, 'LineWidth', 2); grid on;
+plot(domain / pi * 180, probDnst, 'LineWidth', 2); grid on;
 
 %% Calculate Bias
-noiseLevels = 2;
+noiseLevels = 5;
 thetas = 0.01 : 0.05 : 1.01 * pi;
 
 figure; hold on;
