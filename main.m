@@ -1,7 +1,8 @@
 % Combined Subject
+%% Without Feedback
 paraInit  = [1, 150, 0.015];
 optOption = 'bads';
-%% Without Feedback
+
 load('woFB_td.mat');
 [para_woFB_td] = optWrapper(paraInit, allTarget, allResponse, optOption);
 
