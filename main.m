@@ -40,9 +40,7 @@ plot([0.8, 2, 3.2], [1/para_woFB_asd(2), 1/para_wFB1_asd(2), 1/para_wFB2_asd(2)]
 legend({'Normal', 'ASD'});
 xlim([0.5, 3.5]); xticks([0.8, 2, 3.2]);
 xticklabels({'woFB', 'wFB1', 'wFB2'});
-ax = gca;
-ax.YRuler.Exponent = 0;
-title('Int Noise Parameter');
+title('Internal Noise Parameter');
 
 subplot(3, 1, 3);
 hold on; grid on;
@@ -51,7 +49,7 @@ plot([0.8, 2, 3.2], [para_woFB_asd(3), para_wFB1_asd(3), para_wFB2_asd(3)], '--o
 legend({'Normal', 'ASD'});
 xlim([0.5, 3.5]); xticks([0.8, 2, 3.2]);
 xticklabels({'woFB', 'wFB1', 'wFB2'});
-title('Mtr Noise Parameter');
+title('Motor Noise Parameter');
 
 %% Plot Model Prediction, Normal
 figure; subplot(1, 2, 1); hold on; grid on;
