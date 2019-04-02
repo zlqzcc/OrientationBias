@@ -29,7 +29,7 @@ hold on; grid on;
 plot([0.8, 2, 3.2], [para_woFB_td(1), para_wFB1_td(1), para_wFB2_td(1)], '--o', 'LineWidth', 2);
 plot([0.8, 2, 3.2], [para_woFB_asd(1), para_wFB1_asd(1), para_wFB2_asd(1)], '--o', 'LineWidth', 2);
 legend({'Normal', 'ASD'});
-xlim([0.5, 3.5]); xticks([0.8, 2, 3.2]);
+xlim([0.5, 3.5]); xticks([0.8, 2, 3.2]); ylim([1.2, 1.7]);
 xticklabels({'woFB', 'wFB1', 'wFB2'});
 title('Prior Parameter');
 
@@ -40,6 +40,8 @@ plot([0.8, 2, 3.2], [1/para_woFB_asd(2), 1/para_wFB1_asd(2), 1/para_wFB2_asd(2)]
 legend({'Normal', 'ASD'});
 xlim([0.5, 3.5]); xticks([0.8, 2, 3.2]);
 xticklabels({'woFB', 'wFB1', 'wFB2'});
+ax = gca;
+ax.YRuler.Exponent = 0;
 title('Int Noise Parameter');
 
 subplot(3, 1, 3);
