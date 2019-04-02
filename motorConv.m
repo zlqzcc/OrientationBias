@@ -8,4 +8,3 @@ kernel  = normpdf(support, 0, mtrNoise) * deltaKernel;
 probDnst = conv(repmat(probDnst, [1, 3]), kernel, 'same');
 probDnst = probDnst((length(domain) + 1) : 1 : (length(domain) * 2));
 end
-

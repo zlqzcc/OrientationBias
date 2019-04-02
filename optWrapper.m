@@ -2,11 +2,11 @@ function [para, fval] = optWrapper(init, allTarget, allResponse, optFunc)
 targetRadius = allTarget/180 * pi;
 responseRadius = allResponse/180 * pi;
 
-targetRadius(targetRadius < 0)   = targetRadius(targetRadius < 0) + 2 * pi;
+targetRadius(targetRadius < 0) = targetRadius(targetRadius < 0) + 2 * pi;
 responseRadius(responseRadius < 0) = responseRadius(responseRadius < 0) + 2 * pi;
 
 lb = [0, 1, 1e-3];
-ub = [2, 500, 0.25];
+ub = [2, 600, 0.25];
 objFunc = @(para)dataLlhd(para(1), para(2), para(3), targetRadius, responseRadius);
 
 if (strcmp(optFunc, 'fminsearch'))

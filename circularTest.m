@@ -14,7 +14,7 @@ xlabel('radius (pi)'); ylabel('p(theta)');
 
 %% Estimator
 kappa = 50;
-[domain, probDnst] = estimatorCircular(priorDensity, kappa, 0.25, 0.25 * pi);
+[domain, probDnst] = estimatorCircular(priorDensity, kappa, 0.01, 0.25 * pi);
 
 figure;
 plot(domain / pi * 180, probDnst, 'LineWidth', 2); grid on;
