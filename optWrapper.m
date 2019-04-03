@@ -1,13 +1,12 @@
-function [para, fval] = optWrapper(init, allTarget, allResponse, optFunc)
-targetRadius = allTarget/180 * pi;
-responseRadius = allResponse/180 * pi;
+function [para, fval] = optWrapper(init, target_woFB, response_woFB, target_wFB1, response_wFB1, target_wFB2, response_wFB2, optFunc)
 
-targetRadius(targetRadius < 0) = targetRadius(targetRadius < 0) + 2 * pi;
-responseRadius(responseRadius < 0) = responseRadius(responseRadius < 0) + 2 * pi;
+lb = [repmat([0, 1], [1, 3]), 1e-3];
+ub = [repmat([2, 600], [1, 3]), 0.25];
 
-lb = [0, 1, 1e-3];
-ub = [2, 600, 0.25];
-objFunc = @(para)dataLlhd(para(1), para(2), para(3), targetRadius, responseRadius);
+objFunc = @(para) ...
+    dataLlhd(para(1), para(2), para(end), target_woFB, response_woFB) + ...
+    dataLlhd(para(3), para(4), para(end), target_wFB1, response_wFB1) + ...
+    dataLlhd(para(5), para(6), para(end), target_wFB2, response_wFB2);
 
 if (strcmp(optFunc, 'fminsearch'))
     opts = optimset('fminsearch');
@@ -24,11 +23,11 @@ elseif (strcmp(optFunc, 'fmincon'))
     
     [para, fval] = fmincon(objFunc, init, [], [], [], [], lb, ub, [], opts);
 elseif (strcmp(optFunc, 'bads'))
-    plb = [0.1, 40, 0.01];
-    pub = [2, 400, 0.1];
+    plb = [repmat([0.1, 40], [1, 3]), 0.01];
+    pub = [repmat([2, 500], [1, 3]), 0.1];
     [para, fval] = bads(objFunc, init, lb, ub, plb, pub);
 else
     error('Invalid optimization option.');
 end
-end
 
+end

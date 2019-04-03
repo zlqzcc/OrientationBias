@@ -1,4 +1,10 @@
 function negLlhd = dataLlhd(priorScale, intNoise, mtrNoise, input, response)
+input = input/180 * pi;
+response = response/180 * pi;
+
+input(input < 0) = input(input < 0) + 2 * pi;
+response(response < 0) = response(response < 0) + 2 * pi;
+
 stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
 priorUnm = 2 - priorScale * abs(sin(2 * stmSpc));
 nrmConst = 1.0 / trapz(stmSpc, priorUnm);
