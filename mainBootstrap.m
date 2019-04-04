@@ -1,9 +1,9 @@
-nRuns = 100;
-para_td  = zeros(nRuns, 7);
-para_asd = zeros(nRuns, 7);
+nRuns = 50;
+all_para_td  = zeros(nRuns, 7);
+all_para_asd = zeros(nRuns, 7);
 
 %% Control Group
-paraInit  = [repmat([1.5, 200], [1, 3]), 0.01];
+paraInit  = para_td;
 optOption = 'bads';
 
 subData = load('woFB_td.mat');
@@ -22,14 +22,14 @@ for idx = 1:nRuns
     [target_wFB1_resample, response_wFB1_resample] = resample(target_wFB1, response_wFB1);
     [target_wFB2_resample, response_wFB2_resample] = resample(target_wFB2, response_wFB2);
     
-    para_td(idx, :) = optWrapper(paraInit, ...
+    all_para_td(idx, :) = optWrapper(paraInit, ...
         target_woFB_resample, response_woFB_resample, ...
         target_wFB1_resample, response_wFB1_resample, ...
         target_wFB2_resample, response_wFB2_resample, optOption, 'final');
 end
 
 %% ASD Group
-paraInit  = [repmat([1.5, 200], [1, 3]), 0.01];
+paraInit  = para_asd;
 optOption = 'bads';
 
 subData = load('woFB_asd.mat');
@@ -48,7 +48,7 @@ for idx = 1:nRuns
     [target_wFB1_resample, response_wFB1_resample] = resample(target_wFB1, response_wFB1);
     [target_wFB2_resample, response_wFB2_resample] = resample(target_wFB2, response_wFB2);
     
-    para_td(idx, :) = optWrapper(paraInit, ...
+    all_para_asd(idx, :) = optWrapper(paraInit, ...
         target_woFB_resample, response_woFB_resample, ...
         target_wFB1_resample, response_wFB1_resample, ...
         target_wFB2_resample, response_wFB2_resample, optOption, 'final');

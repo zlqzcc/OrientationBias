@@ -53,13 +53,13 @@ title('Internal Noise Parameter');
 
 %% Plot Model Prediction, Normal
 figure; subplot(1, 2, 1); hold on; grid on;
-[~, theta, bias] = modelVis([para_td(1:2), para_td(end)], 0.68);
+[prior_woFB_td, theta, bias] = modelVis([para_td(1:2), para_td(end)], 0.68);
 plot(theta, bias, 'LineWidth', 2);
 
-[~, theta, bias] = modelVis([para_td(3:4), para_td(end)], 0.68);
+[prior_wFB1_td, theta, bias] = modelVis([para_td(3:4), para_td(end)], 0.68);
 plot(theta, bias, 'LineWidth', 2);
 
-[~, theta, bias] = modelVis([para_td(5:6), para_td(end)], 0.68);
+[prior_wFB2_td, theta, bias] = modelVis([para_td(5:6), para_td(end)], 0.68);
 plot(theta, bias, 'LineWidth', 2);
 
 title('Bias, Control'); xlim([0, 1]); ylim([-10, 10]);
@@ -68,18 +68,36 @@ legend({'woFB', 'wFB1', 'wFB2'});
 
 %% Plot Model Prediction, ASD
 subplot(1, 2, 2); hold on; grid on;
-[~, theta, bias] = modelVis([para_asd(1:2), para_asd(end)], 0.68);
+[prior_woFB_asd, theta, bias] = modelVis([para_asd(1:2), para_asd(end)], 0.68);
 plot(theta, bias, 'LineWidth', 2);
 
-[~, theta, bias] = modelVis([para_asd(3:4), para_asd(end)], 0.68);
+[prior_wFB1_asd, theta, bias] = modelVis([para_asd(3:4), para_asd(end)], 0.68);
 plot(theta, bias, 'LineWidth', 2);
 
-[~, theta, bias] = modelVis([para_asd(5:6), para_asd(end)], 0.68);
+[prior_wFB2_asd, theta, bias] = modelVis([para_asd(5:6), para_asd(end)], 0.68);
 plot(theta, bias, 'LineWidth', 2);
 
 title('Bias, ASD'); xlim([0, 1]); ylim([-10, 10]);
 xlabel('Orientation (pi)'); ylabel('Bias (deg)'); grid on;
 legend({'woFB', 'wFB1', 'wFB2'});
+
+%% Show Prior Distribution
+domain = 0 : 0.01 : pi;
+figure; subplot(1, 2, 1); hold on; grid on;
+plot(domain, prior_woFB_td(domain), 'LineWidth', 2);
+plot(domain, prior_wFB1_td(domain), 'LineWidth', 2);
+plot(domain, prior_wFB2_td(domain), 'LineWidth', 2);
+xlabel('Radius (pi)'); ylabel('Probability Density');
+legend({'woFB', 'wFB1', 'wFB2'}); 
+title('Prior across sessions, Control')
+
+subplot(1, 2, 2); hold on; grid on;
+plot(domain, prior_woFB_asd(domain), 'LineWidth', 2);
+plot(domain, prior_wFB1_asd(domain), 'LineWidth', 2);
+plot(domain, prior_wFB2_asd(domain), 'LineWidth', 2);
+xlabel('Radius (pi)'); ylabel('Probability Density');
+legend({'woFB', 'wFB1', 'wFB2'});
+title('Prior across sessions, ASD')
 
 %% Model - Data scatter Plot, Control
 figure;
