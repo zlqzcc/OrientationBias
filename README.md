@@ -3,8 +3,7 @@ Fit bayesian efficient coding model (Wei & Stocker 2015) with the method in (Sto
 
 
 ## Dependencies
-You will need Bayesian Adaptive Direct Search [(`bads`)](https://github.com/lacerbi/bads) OR  
-[`fminsearchbnd`](https://www.mathworks.com/matlabcentral/fileexchange/8277-fminsearchbnd-fminsearchcon) to run the fitting procedure efficiently.
+You will need Bayesian Adaptive Direct Search [(`bads`)](https://github.com/lacerbi/bads) OR [`fminsearchbnd`](https://www.mathworks.com/matlabcentral/fileexchange/8277-fminsearchbnd-fminsearchcon) to run the fitting procedure efficiently.  
 
 ## Scripts
 `main.m` Run fit on combined subject and plot the results.  
