@@ -10,7 +10,7 @@ You will need Bayesian Adaptive Direct Search (`bads`) https://github.com/lacerb
 `main.m` Run fit on combined subject and plot the results.  
 `mainBootstrap.m` Run bootstrap fit on combined subject.  
 `mainSubjects.m` Run fit on individual subjects separately and plot the results.  
-`plotSubjectFit.m` (Load in best fit parameter first) Generate the result figure for each subject (with scatter plot of raw data).  
+`plotSubjectFit.m` (Load in best fit parameter) Generate the result figure for each subject (with scatter plot of raw data).  
 
 ## Functions
 `dataLlhd.m` Data likelihood (for method of adjustment)  
