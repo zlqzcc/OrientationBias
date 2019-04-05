@@ -20,4 +20,4 @@ You will need Bayesian Adaptive Direct Search (`bads`) https://github.com/lacerb
 
 `fitSubjects.m` Read in data file from ./Data_mat_files and run the fit for each individual subjects.  
 `modelVis.m` Visualization of model prediction and error bars given the parameter.  
-
+`optWrapper.m` Wrapper function of likelihood that actually runs the fitting procedure.  
