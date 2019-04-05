@@ -1,8 +1,9 @@
-% Combined Subject
+% Run the fit for combined subject, plot the results
 %% Control Group
 paraInit  = [repmat([1.5, 200], [1, 3]), 0.01];
 optOption = 'bads';
 
+% Load data file and run the fitting procedure
 subData = load('woFB_td.mat');
 target_woFB = subData.allTarget; response_woFB = subData.allResponse;
 
@@ -41,8 +42,8 @@ title('Prior Parameter');
 
 subplot(2, 1, 2);
 hold on; grid on;
-plot([0.8, 2, 3.2], [1/para_td(2), 1/para_td(4), 1/para_td(6)], '--o', 'LineWidth', 2);
-plot([0.8, 2, 3.2], [1/para_asd(2), 1/para_asd(4), 1/para_asd(6)], '--o', 'LineWidth', 2);
+plot([0.8, 2, 3.2], sqrt([1/para_td(2), 1/para_td(4), 1/para_td(6)]), '--o', 'LineWidth', 2);
+plot([0.8, 2, 3.2], sqrt([1/para_asd(2), 1/para_asd(4), 1/para_asd(6)]), '--o', 'LineWidth', 2);
 ax = gca;
 ax.YRuler.Exponent = 0;
 

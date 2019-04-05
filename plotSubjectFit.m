@@ -1,7 +1,9 @@
+% Generate plot of model prediction with scatter plot of raw data for individual subject
 %% Control Group
 dataDir = 'Data_mat_files';
 group = 'td';
 
+% Load data file
 dir_woFB = dir(fullfile(dataDir, 'woFB', group, '*.mat'));
 dir_wFB1 = dir(fullfile(dataDir, 'wFB1', group, '*.mat'));
 dir_wFB2 = dir(fullfile(dataDir, 'wFB2', group, '*.mat'));
@@ -12,7 +14,8 @@ for idx = 1:nSub
     fig = figure('Renderer', 'painters', 'Position', [10 10 900 600]);
     set(gcf,'PaperOrientation','landscape');
     colors = get(gca,'colororder');
-    
+        
+    % woFB condition
     data = load(fullfile(dir_woFB(idx).folder, dir_woFB(idx).name));
     subplot(2, 3, 4); hold on; grid on;
     [prior_woFB, theta, bias, lb, ub] = modelVis([allPara_td(idx, 1:2), allPara_td(idx, end)], 0.95, 0.2);
@@ -22,6 +25,7 @@ for idx = 1:nSub
     xlabel('Orientation (pi)'); ylabel('Bias (deg)');
     title('Bias, Control - woFB');
     
+    % wFB1 condition
     data = load(fullfile(dir_wFB1(idx).folder, dir_wFB1(idx).name));
     subplot(2, 3, 5); hold on; grid on;
     [prior_wFB1, theta, bias, lb, ub] = modelVis([allPara_td(idx, 3:4), allPara_td(idx, end)], 0.95, 0.2);
@@ -31,6 +35,7 @@ for idx = 1:nSub
     xlabel('Orientation (pi)'); ylabel('Bias (deg)');
     title('Bias, Control - wFB1');
     
+    % wFB2 condition
     data = load(fullfile(dir_wFB2(idx).folder, dir_wFB2(idx).name));
     subplot(2, 3, 6); hold on; grid on;
     [prior_wFB2, theta, bias, lb, ub] = modelVis([allPara_td(idx, 5:6), allPara_td(idx, end)], 0.95, 0.2);
@@ -40,6 +45,7 @@ for idx = 1:nSub
     xlabel('Orientation (pi)'); ylabel('Bias (deg)');
     title('Bias, Control - wFB2');
     
+    % Prior change
     domain = 0 : 0.01 : pi;
     subplot(2, 3, 2); hold on; grid on;
     plot(domain, prior_woFB(domain), 'LineWidth', 2);
@@ -52,6 +58,7 @@ for idx = 1:nSub
     suptitle(sprintf('Control Subject: %d', idx));
     set(gcf,'Visible','Off')
     
+    % Save PDF files of plots
     saveDir = sprintf('./AllSubFigure/Control_%d', idx);
     print(fig, '-bestfit', saveDir, '-dpdf');
 end
@@ -60,6 +67,7 @@ end
 dataDir = 'Data_mat_files';
 group = 'asd';
 
+% Load data file
 dir_woFB = dir(fullfile(dataDir, 'woFB', group, '*.mat'));
 dir_wFB1 = dir(fullfile(dataDir, 'wFB1', group, '*.mat'));
 dir_wFB2 = dir(fullfile(dataDir, 'wFB2', group, '*.mat'));
@@ -71,6 +79,7 @@ for idx = 1:nSub
     set(gcf,'PaperOrientation','landscape');
     colors = get(gca,'colororder');
     
+    % woFB condition
     data = load(fullfile(dir_woFB(idx).folder, dir_woFB(idx).name));
     subplot(2, 3, 4); hold on; grid on;
     [prior_woFB, theta, bias, lb, ub] = modelVis([allPara_asd(idx, 1:2), allPara_asd(idx, end)], 0.95, 0.2);
@@ -80,6 +89,7 @@ for idx = 1:nSub
     xlabel('Orientation (pi)'); ylabel('Bias (deg)');
     title('Bias, ASD - woFB');
     
+    % wFB1 condition
     data = load(fullfile(dir_woFB(idx).folder, dir_woFB(idx).name));
     subplot(2, 3, 5); hold on; grid on;
     [prior_wFB1, theta, bias, lb, ub] = modelVis([allPara_asd(idx, 3:4), allPara_asd(idx, end)], 0.95, 0.2);
@@ -89,6 +99,7 @@ for idx = 1:nSub
     xlabel('Orientation (pi)'); ylabel('Bias (deg)');
     title('Bias, ASD - wFB1');
     
+    % wFB2 condition
     data = load(fullfile(dir_wFB2(idx).folder, dir_wFB2(idx).name));
     subplot(2, 3, 6); hold on; grid on;
     [prior_wFB2, theta, bias, lb, ub] = modelVis([allPara_asd(idx, 5:6), allPara_asd(idx, end)], 0.95, 0.2);
@@ -98,6 +109,7 @@ for idx = 1:nSub
     xlabel('Orientation (pi)'); ylabel('Bias (deg)');
     title('Bias, ASD - wFB2');
     
+    % Prior change
     domain = 0 : 0.01 : pi;
     subplot(2, 3, 2); hold on; grid on;
     plot(domain, prior_woFB(domain), 'LineWidth', 2);
@@ -110,6 +122,7 @@ for idx = 1:nSub
     suptitle(sprintf('ASD Subject: %d', idx));
     set(gcf,'Visible','Off')
     
+    % Save PDF files of plots
     saveDir = sprintf('./AllSubFigure/ASD_%d', idx);
     print(fig, '-bestfit', saveDir, '-dpdf');
 end

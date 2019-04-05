@@ -1,3 +1,5 @@
+%% Bootstrap on combined subject
+% Load data, declear desired # of runs
 nRuns = 20;
 all_para_td  = zeros(nRuns, 7);
 all_para_asd = zeros(nRuns, 7);
@@ -54,7 +56,7 @@ for idx = 1:nRuns
         target_wFB2_resample, response_wFB2_resample, optOption, 'iter');
 end
 
-%% Plot Parameter Change
+%% Plot Parameter Change (with error bar calculated from bootstrap run)
 figure; subplot(2, 1, 1);
 hold on; grid on;
 errorbar([0.8, 2, 3.2], mean(all_para_td(:, [1, 3, 5])),  2 * std(all_para_td(:, [1, 3, 5])), '--o', 'LineWidth', 2);
