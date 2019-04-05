@@ -14,10 +14,10 @@ objFunc = @(para) ...
 if (strcmp(optFunc, 'fminsearch'))
     opts = optimset('fminsearch');
     opts.Display = disp;
-    opts.TolX = 1e-4;
-    opts.TolFun = 1e-4;
+    opts.TolX = 1e-2;
+    opts.TolFun = 1e-2;
     
-    [para, fval] = fminsearchbnd(objFunc, init, [0, 1], [2, 200], opts);
+    [para, fval] = fminsearchbnd(objFunc, init, lb, ub, opts);
 elseif (strcmp(optFunc, 'fmincon'))
     opts = optimoptions('fmincon');
     opts.Display = disp;

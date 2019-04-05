@@ -14,7 +14,7 @@ prior = @(support) (2 - priorScale * abs(sin(2 * support))) * nrmConst;
 
 % Calculate Bias
 noiseLevel = intNoise;
-thetas = 0.01 : incr : 1.01 * pi;
+thetas = 0.1 : incr : 1.1 * pi;
 
 estimate = zeros(3, length(thetas));
 for idx = 1:length(thetas)

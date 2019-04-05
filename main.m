@@ -105,7 +105,7 @@ colors = get(gca,'colororder');
 
 load('woFB_td.mat');
 subplot(1, 2, 1); hold on; grid on;
-[~, theta, bias, lb, ub] = modelVis([para_td(1:2), para_asd(end)], 0.95, 0.1);
+[~, theta, bias, lb, ub] = modelVis([para_td(1:2), para_td(end)], 0.95, 0.1);
 errorbar(theta, bias, bias - lb, ub - bias, 'LineWidth', 1.0, 'Color', colors(1, :));
 scatter(allTarget/180, allResponse - allTarget, 0.5, colors(1, :));
 xlim([0, 1]); ylim([-40, 40]);
@@ -114,7 +114,7 @@ title('Bias, Control - woFB');
 
 load('wFB2_td.mat');
 subplot(1, 2, 2); hold on; grid on;
-[~, theta, bias, lb, ub] = modelVis([para_td(5:6), para_asd(end)], 0.95, 0.1);
+[~, theta, bias, lb, ub] = modelVis([para_td(5:6), para_td(end)], 0.95, 0.1);
 errorbar(theta, bias, bias - lb, ub - bias, 'LineWidth', 1.0, 'Color', colors(2, :));
 scatter(allTarget/180, allResponse - allTarget, 0.5, colors(2, :));
 xlim([0, 1]); ylim([-40, 40]);
