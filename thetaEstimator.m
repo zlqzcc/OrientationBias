@@ -1,4 +1,6 @@
 function [estimate] = thetaEstimator(ivsStmSpc, ivsPrior, stmSpc, snsSpc, delta, intNoise, snsMsmt)
+%THETAESTIMATOR Calculate theta_hat given the sensory measurement.
+
 % Estimator given measurement m (theta_hat function)
 likelihoodDist = vonmpdf(snsSpc, snsMsmt, intNoise);
 score = likelihoodDist .* ivsPrior;

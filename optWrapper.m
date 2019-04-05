@@ -1,4 +1,6 @@
 function [para, fval] = optWrapper(init, target_woFB, response_woFB, target_wFB1, response_wFB1, target_wFB2, response_wFB2, optFunc, disp)
+%OPTWRAPPER Wrapper function for running the actual fitting procedure.
+
 if ~exist('disp','var')
     disp = 'iter';
 end

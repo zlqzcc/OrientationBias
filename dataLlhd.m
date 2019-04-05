@@ -1,4 +1,7 @@
 function negLlhd = dataLlhd(priorScale, intNoise, mtrNoise, input, response)
+%DATALLHD Calculate the negative log likelihood for given parameter and
+%dataset (target - response pair).
+
 input = input/180 * pi;
 response = response/180 * pi;
 

@@ -1,4 +1,20 @@
 function [prior, thetas, bias, biasLB, biasUB] = modelVis(para, ci, incr)
+%MODELVIS Visualization of the model fitting results.
+%   Syntax:
+%   [prior, thetas, bias, biasLB, biasUB] = modelVis(para, ci, incr)
+%
+%   Inputs:
+%       para    - Best fitted model parameter.
+%       ci      - Confidence internal (between 0 and 1) for the errorbars.
+%       incr    - Increments between point within [0, pi] for the calculation.
+%
+%   Outputs:
+%       prior   - A function handle of prior distribution.
+%       thetas  - Domain for the calculation.
+%       bias    - Bias as a function of thetas.
+%       biasLB  - Lower CI of bias as a function of thetas.
+%       biasUB  - Upper CI of bias as a function of thetas.
+
 if ~exist('incr','var')     
       incr = 0.025;
 end

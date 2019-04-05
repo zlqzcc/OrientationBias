@@ -1,4 +1,5 @@
 function allPara = fitSubjects(dataDir, group)
+%FITSUBJECTS Load data and run the fit for individual subject.
 
 dir_woFB = dir(fullfile(dataDir, 'woFB', group, '*.mat'));
 dir_wFB1 = dir(fullfile(dataDir, 'wFB1', group, '*.mat'));
