@@ -15,8 +15,11 @@ function [prior, thetas, bias, biasLB, biasUB] = modelVis(para, ci, incr)
 %       biasLB  - Lower CI of bias as a function of thetas.
 %       biasUB  - Upper CI of bias as a function of thetas.
 
-if ~exist('incr','var')     
-      incr = 0.025;
+if ~exist('incr','var')    
+    incr = 0.025;
+    init = incr;
+else
+    init = 0.1;
 end
 priorScale = para(1);
 intNoise   = para(2);
@@ -30,7 +33,7 @@ prior = @(support) (2 - priorScale * abs(sin(2 * support))) * nrmConst;
 
 % Calculate Bias
 noiseLevel = intNoise;
-thetas = 0.1 : incr : 1.1 * pi;
+thetas = init : incr : 1.1 * pi;
 
 estimate = zeros(3, length(thetas));
 for idx = 1:length(thetas)
