@@ -5,8 +5,8 @@ if ~exist('disp','var')
     disp = 'iter';
 end
 
-lb = [repmat([0, 1], [1, 3]), 1e-3];
-ub = [repmat([2, 600], [1, 3]), 0.25];
+lb = [repmat([0, 0.1], [1, 3]), 1e-3];
+ub = [repmat([2, 500], [1, 3]), 0.25];
 
 objFunc = @(para) ...
     dataLlhd(para(1), para(2), para(end), target_woFB, response_woFB) + ...

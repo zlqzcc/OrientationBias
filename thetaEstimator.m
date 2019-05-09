@@ -10,7 +10,7 @@ end
 
 stmScore = interp1(ivsStmSpc, score, stmSpc, 'linear', 'extrap');
 % L2 loss, Posterior mean
-posteriorDist = score / trapz(stmSpc, stmScore);
+posteriorDist = stmScore / trapz(stmSpc, stmScore);
 posteriorMass = posteriorDist * delta;
 
 estimateSin = sum(posteriorMass .* sin(stmSpc));

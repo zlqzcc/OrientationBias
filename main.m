@@ -1,7 +1,7 @@
 % Run the fit for combined subject, plot the results
 %% Control Group
-paraInit  = [repmat([1.5, 200], [1, 3]), 0.01];
-optOption = 'bads';
+paraInit  = [repmat([1.8, 25], [1, 3]), 0.01];
+optOption = 'fminsearch';
 
 % Load data file and run the fitting procedure
 subData = load('woFB_td.mat');
@@ -13,11 +13,11 @@ target_wFB1 = subData.allTarget; response_wFB1 = subData.allResponse;
 subData = load('wFB2_td.mat');
 target_wFB2 = subData.allTarget; response_wFB2 = subData.allResponse;
 
-[para_td] = optWrapper(paraInit, target_woFB, response_woFB, target_wFB1, response_wFB1, target_wFB2, response_wFB2, optOption);
+[para_td, fval_td] = optWrapper(paraInit, target_woFB, response_woFB, target_wFB1, response_wFB1, target_wFB2, response_wFB2, optOption);
 
 %% ASD Group
-paraInit  = [repmat([1.5, 200], [1, 3]), 0.01];
-optOption = 'bads';
+paraInit  = [repmat([1.8, 25], [1, 3]), 0.01];
+optOption = 'fminsearch';
 
 subData = load('woFB_asd.mat');
 target_woFB = subData.allTarget; response_woFB = subData.allResponse;
@@ -28,7 +28,7 @@ target_wFB1 = subData.allTarget; response_wFB1 = subData.allResponse;
 subData = load('wFB2_asd.mat');
 target_wFB2 = subData.allTarget; response_wFB2 = subData.allResponse;
 
-[para_asd] = optWrapper(paraInit, target_woFB, response_woFB, target_wFB1, response_wFB1, target_wFB2, response_wFB2, optOption);
+[para_asd, fval_asd] = optWrapper(paraInit, target_woFB, response_woFB, target_wFB1, response_wFB1, target_wFB2, response_wFB2, optOption);
 
 %% Plot Parameter Change
 figure; subplot(2, 1, 1);
