@@ -17,7 +17,7 @@ function [prior, thetas, bias, biasLB, biasUB] = modelVis(para, ci, incr)
 
 if ~exist('incr','var')    
     incr = 0.025;
-    init = incr;
+    init = 0.005;
 else
     init = 0.1;
 end
