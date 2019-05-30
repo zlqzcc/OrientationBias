@@ -13,5 +13,7 @@ estimates = arrayfun(@(msmt) thetaEstimator(ivsStmSpc, ivsPrior, stmSpc, snsSpc,
 
 % Conv of PDF (motor noise)
 [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, stimulus);
-probDnst = motorConv(mtrNoise, domain, probDnst);
+
+% Motor noise (disabled for now)
+% probDnst = motorConv(mtrNoise, domain, probDnst);
 end

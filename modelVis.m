@@ -15,9 +15,9 @@ function [prior, thetas, bias, biasLB, biasUB] = modelVis(para, ci, incr)
 %       biasLB  - Lower CI of bias as a function of thetas.
 %       biasUB  - Upper CI of bias as a function of thetas.
 
-if ~exist('incr','var')    
-    incr = 0.025;
-    init = 0.005;
+if ~exist('incr','var')
+    incr = 0.05;
+    init = 0.01;
 else
     init = 0.1;
 end
@@ -27,13 +27,13 @@ mtrNoise   = para(3);
 
 stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
 
-prior = 2 - priorScale * abs(sin(2 * stmSpc));
+prior = 2 - priorScale * abs(sin(stmSpc));
 nrmConst = 1.0 / trapz(stmSpc, prior);
-prior = @(support) (2 - priorScale * abs(sin(2 * support))) * nrmConst;
+prior = @(support) (2 - priorScale * abs(sin(support))) * nrmConst;
 
 % Calculate Bias
 noiseLevel = intNoise;
-thetas = init : incr : 1.1 * pi;
+thetas = init : incr : 2 * pi;
 
 estimate = zeros(3, length(thetas));
 for idx = 1:length(thetas)
@@ -41,10 +41,10 @@ for idx = 1:length(thetas)
         averageEstimate(prior, noiseLevel, mtrNoise, thetas(idx), ci);
 end
 
-bias   = (estimate(1, :) - thetas) / pi * 180;
-biasLB = (estimate(2, :) - thetas) / pi * 180;
-biasUB = (estimate(3, :) - thetas) / pi * 180;
-thetas = thetas / pi;
+bias   = (estimate(1, :) - thetas) / (2 * pi) * 180;
+biasLB = (estimate(2, :) - thetas) / (2 * pi) * 180;
+biasUB = (estimate(3, :) - thetas) / (2 * pi) * 180;
+thetas = thetas / (2 * pi) * 180;
 
     function [estMean, estLB, estUB] = averageEstimate(prior, noiseLevel, mtrNoise, theta, ci)
         % mean estimate
@@ -67,8 +67,10 @@ thetas = thetas / pi;
         end
         
         % interval estimate
-        if(theta < 0.25 * pi)
+        if(theta < 0.5 * pi)
             ests(ests > pi) = ests(ests > pi) - 2 * pi;
+        elseif(theta > 1.5 * pi)
+            ests(ests < pi) = ests(ests < pi) + 2 * pi;
         end
         [ests, sortIdx] = sort(ests);
         prob = prob(sortIdx);
