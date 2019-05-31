@@ -2,16 +2,21 @@ function negLlhd = dataLlhd(priorScale, intNoise, mtrNoise, input, response)
 %DATALLHD Calculate the negative log likelihood for given parameter and
 %dataset (target - response pair).
 
-input = input/180 * pi;
-response = response/180 * pi;
+% Transform data to [0, 2 * pi] space
+input = input / 180 * 2 * pi;
+response = response / 180 * 2 * pi;
 
 input(input < 0) = input(input < 0) + 2 * pi;
 response(response < 0) = response(response < 0) + 2 * pi;
 
+input(input > 2 * pi) = input(input > 2 * pi) - 2 * pi;
+response(response > 2 * pi) = response(response > 2 * pi) - 2 * pi;
+
+% Prior distribution
 stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
-priorUnm = 2 - priorScale * abs(sin(2 * stmSpc));
+priorUnm = 2 - priorScale * abs(sin(stmSpc));
 nrmConst = 1.0 / trapz(stmSpc, priorUnm);
-prior = @(support) (2 - priorScale * abs(sin(2 * support))) * nrmConst;
+prior = @(support) (2 - priorScale * abs(sin(support))) * nrmConst;
 
 % Circular stimulus and sensory space in between [0, 2 * pi]
 delta  = 0.01;
@@ -30,12 +35,13 @@ estimates = arrayfun(@(msmt) thetaEstimator(ivsStmSpc, ivsPrior, stmSpc, snsSpc,
 logLlhd = zeros(1, length(input));
 parfor idx = 1:length(input)
     [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, input(idx));
-    probDnst = motorConv(mtrNoise, domain, probDnst)
+    % motor noise disabled
+    % probDnst = motorConv(mtrNoise, domain, probDnst)
     
     dataProb = interp1(domain, probDnst, response(idx), 'linear', 'extrap');
     % zero probability threshold
-    if(dataProb < 1e-6)
-        dataProb = 1e-6;
+    if(dataProb < 1e-10)
+        dataProb = 1e-10;
     end
     logLlhd(idx) = log(dataProb);
 end

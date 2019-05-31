@@ -1,7 +1,7 @@
 function [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, stimulus)
 
 % external -> internal space (both with 0 and 2pi)
-thetaTilde = interp1(stmSpc, F, stimulus);
+thetaTilde = interp1(stmSpc, F, stimulus, 'linear', 'extrap');
 
 % p(m_tilde | theta_tilde)
 snsSpc = 0 : 0.01 : 2 * pi;
