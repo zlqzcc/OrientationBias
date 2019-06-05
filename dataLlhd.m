@@ -23,6 +23,7 @@ delta  = 0.01;
 stmSpc = 0 : delta : 2 * pi;
 snsSpc = 0 : delta : 2 * pi;
 
+% Mapping (CDF)
 priorDnst = prior(stmSpc);
 F = cumtrapz(stmSpc, priorDnst) * 2 * pi;
 
