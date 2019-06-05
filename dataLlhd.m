@@ -13,10 +13,7 @@ input(input > 2 * pi) = input(input > 2 * pi) - 2 * pi;
 response(response > 2 * pi) = response(response > 2 * pi) - 2 * pi;
 
 % Prior distribution
-stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
-priorUnm = 2 - priorScale * abs(sin(stmSpc));
-nrmConst = 1.0 / trapz(stmSpc, priorUnm);
-prior = @(support) (2 - priorScale * abs(sin(support))) * nrmConst;
+prior = priorHandle(priorScale);
 
 % Circular stimulus and sensory space in between [0, 2 * pi]
 delta  = 0.01;

@@ -1,4 +1,6 @@
 function [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, stimulus)
+%ESTIMATORPDF Calculate the estimate distribution p(theta_hat | theta)
+%given an estimator theta_hat(measurement).
 
 % external -> internal space (both with 0 and 2pi)
 thetaTilde = interp1(stmSpc, F, stimulus, 'linear', 'extrap');

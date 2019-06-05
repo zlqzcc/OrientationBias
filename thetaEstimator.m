@@ -9,7 +9,7 @@ if(sum(isnan(ivsStmSpc)) > 0 || sum(isnan(score)) > 0)
 end
 
 stmScore = interp1(ivsStmSpc, score, stmSpc, 'linear', 'extrap');
-% L2 loss, Posterior mean
+% L2 loss, posterior mean
 posteriorDist = stmScore / trapz(stmSpc, stmScore);
 posteriorMass = posteriorDist * delta;
 
