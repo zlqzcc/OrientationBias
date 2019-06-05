@@ -26,10 +26,7 @@ intNoise   = para(2);
 mtrNoise   = para(3);
 
 stepSize = 0.01; stmSpc = 0 : stepSize : 2 * pi;
-
-prior = 2 - priorScale * abs(sin(stmSpc));
-nrmConst = 1.0 / trapz(stmSpc, prior);
-prior = @(support) (2 - priorScale * abs(sin(support))) * nrmConst;
+prior = priorHandle(priorScale);
 
 % Calculate Bias
 noiseLevel = intNoise;

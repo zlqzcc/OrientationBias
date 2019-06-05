@@ -27,17 +27,18 @@ F = cumtrapz(stmSpc, priorDnst) * 2 * pi;
 ivsStmSpc = interp1(F, stmSpc, snsSpc, 'linear', 'extrap');
 ivsPrior  = prior(ivsStmSpc);
 
-% theat_hat(measurement)
+% Calculate the function theat_hat(measurement)
 estimates = arrayfun(@(msmt) thetaEstimator(ivsStmSpc, ivsPrior, stmSpc, snsSpc, delta, intNoise, msmt), snsSpc);
 
 logLlhd = zeros(1, length(input));
 parfor idx = 1:length(input)
     [domain, probDnst] = estimatorPDF(stmSpc, F, intNoise, estimates, input(idx));
-    % motor noise disabled
+    
+    % Motor noise disabled
     % probDnst = motorConv(mtrNoise, domain, probDnst)
     
     dataProb = interp1(domain, probDnst, response(idx), 'linear', 'extrap');
-    % zero probability threshold
+    % Zero probability threshold
     if(dataProb < 1e-10)
         dataProb = 1e-10;
     end
